@@ -1,3 +1,4 @@
+
 Python requires the elasticsearch library. With Archlinux, the package
 is called
     python-elasticsearch
@@ -17,3 +18,44 @@ To have correct data types:
        correctly, add them to the mapping in python
     3) To update types in Kibana, remove and add again the index,
        otherwise you will still have the "old" type
+       
+      
+  # How to load the Elastic Search Instance to other client using Kibana
+  
+     1) Set the configuration setup in the sharing machine by changing the elasticsearch.yml
+     
+     ```sh
+     # Change directory to the config where the elasticsearch.yml is located
+     # environment
+     cd /elasticsearch-5.6.1/config/elasticsearch.yml
+
+      
+     network.host: 0.0.0.0
+     transport.host: localhost
+     #
+     # Set a custom port for HTTP:
+     #
+     http.port: 9200
+     ```
+     
+     2) The client using the above elasticsearch instance could verify with the IP address of the sharing machine
+     
+     ```sh
+     curl http://ipaddr:9200
+     ```
+     3) To access the dashboard of the Kibana from the other machine, setup the kibana.yml file with the IP address of the 
+     shared machine
+     
+     ```sh
+     # Change directory to the config where the elasticsearch.yml is located
+     # environment
+     cd /kibana-5.6.1/config/kibana.yml
+     
+     # The URL of the Elasticsearch instance to use for all your queries.
+     elasticsearch.url: "http://ip-addr-of-shared-machine:9200"
+     
+     4) The shared Dashboard link should be working fine now...!!!
+
+     
+      
+       
