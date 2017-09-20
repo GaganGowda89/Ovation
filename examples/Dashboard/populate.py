@@ -9,8 +9,9 @@ import csv
 
 class Review:
     def __init__(self, row):
-        #fake_date = ('2017-%02d-%02d %02d:%02d:%02d:%06.3f' % (randint(1,8), randint(1,30), randint(1,23), randint(0,59), randint(0,59), uniform(0,59)))
-        #print(fake_date)
+        # Best random date generator ever
+        fake_date = ('2017-%02d-%02dT%02d:%02d:%09.6f' % (randint(1,8), randint(1,28), randint(1,23), randint(0,59), uniform(0,59)))
+        print(fake_date)
         self.data = {
            'pos_food': row[0],
            'neg_food': row[1],
@@ -27,7 +28,7 @@ class Review:
            'no_category': row[12],
            'review': row[13],
            'review_length': row[14],
-           'date': datetime.now(),
+           'date': fake_date,
            'age': randint(18, 81),
            'sentiment': randint(0, 5),
            'location': str(uniform(-90, 90))+','+str(uniform(-180, 180))
