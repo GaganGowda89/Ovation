@@ -17,3 +17,8 @@ To have correct data types:
        correctly, add them to the mapping in python
     3) To update types in Kibana, remove and add again the index,
        otherwise you will still have the "old" type
+Note that step 3) is required because Kibana keeps a copy of the
+index structure in a separate index, i.e., it's storing redundant
+data.
+
+To work with requests in python, python-requests is needed.
