@@ -14,19 +14,19 @@ class Review:
         fake_date = ('2017-%02d-%02dT%02d:%02d:%09.6f' % (randint(1,8), randint(1,28), randint(1,23), randint(0,59), uniform(0,59)))
         print(fake_date)
         self.data = {
-           'pos_food': row[0],
-           'neg_food': row[1],
-           'pos_location': row[2],
-           'bad_location': row[3],
-           'bad_hygiene': row[4],
-           'renovation_needed': row[5],
-           'payment_problems': row[6],
-           'technical_problems': row[7],
-           'neg_comfortable': row[8],
-           'pos_comfortable': row[9],
-           'neg_friendly': row[10],
-           'pos_friendly': row[11],
-           'no_category': row[12],
+           'pos_food': int(row[0]),
+           'neg_food': int(row[1]),
+           'pos_location': int(row[2]),
+           'bad_location': int(row[3]),
+           'bad_hygiene': int(row[4]),
+           'renovation_needed': int(row[5]),
+           'payment_problems': int(row[6]),
+           'technical_problems': int(row[7]),
+           'neg_comfortable': int(row[8]),
+           'pos_comfortable': int(row[9]),
+           'neg_friendly': int(row[10]),
+           'pos_friendly': int(row[11]),
+           'no_category': int(row[12]),
            'review': row[13],
            'review_length': int(row[14]),
            'date': fake_date,
@@ -62,53 +62,8 @@ settings = {
                 "date": {
                     "type": "date"
                 },
-                "pos_food": {
-                    "type": "integer"
-                },
-                "neg_food": {
-                    "type": "integer"
-                },
-                "pos_location": {
-                    "type": "integer"
-                },
-                "bad_location": {
-                    "type": "integer"
-                },
-                "bad_hygiene": {
-                    "type": "integer"
-                },
-                "renovation_needed": {
-                    "type": "integer"
-                },
-                "payment_problems": {
-                    "type": "integer"
-                },
-                "technical_problems": {
-                    "type": "integer"
-                },
-                "neg_comfortable": {
-                    "type": "integer"
-                },
-                "pos_comfortable": {
-                    "type": "integer"
-                },
-                "neg_friendly": {
-                    "type": "integer"
-                },
-                "pos_friendly": {
-                    "type": "integer"
-                },
-                "no_category": {
-                    "type": "integer"
-                },
-                "test_field": {
-                    "type": "integer"
-                },
                 'location': {
                     'type': 'geo_point'
-                },
-                'review_length': {
-                    'type': 'integer'
                 }
             }
         }

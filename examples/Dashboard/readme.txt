@@ -10,3 +10,10 @@ To have a constant update of the visualizations:
 You might nead to restart Kibana afterwards. In Archlinux, run as
 root
     systemctl restart kibana
+
+To have correct data types:
+    1) In case of numbers, cast correctly row[] in the python script
+    2) In case of dates, locations or types which are not detected
+       correctly, add them to the mapping in python
+    3) To update types in Kibana, remove and add again the index,
+       otherwise you will still have the "old" type
