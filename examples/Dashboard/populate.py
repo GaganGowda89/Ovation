@@ -2,6 +2,7 @@ from elasticsearch import Elasticsearch
 from datetime import datetime
 from random import randint
 from random import uniform
+from time import sleep
 import json
 import csv
 
@@ -27,7 +28,7 @@ class Review:
            'pos_friendly': row[11],
            'no_category': row[12],
            'review': row[13],
-           'review_length': row[14],
+           'review_length': int(row[14]),
            'date': fake_date,
            'age': randint(18, 81),
            'sentiment': randint(0, 5),
@@ -61,13 +62,59 @@ settings = {
                 "date": {
                     "type": "date"
                 },
+                "pos_food": {
+                    "type": "integer"
+                },
+                "neg_food": {
+                    "type": "integer"
+                },
+                "pos_location": {
+                    "type": "integer"
+                },
+                "bad_location": {
+                    "type": "integer"
+                },
+                "bad_hygiene": {
+                    "type": "integer"
+                },
+                "renovation_needed": {
+                    "type": "integer"
+                },
+                "payment_problems": {
+                    "type": "integer"
+                },
+                "technical_problems": {
+                    "type": "integer"
+                },
+                "neg_comfortable": {
+                    "type": "integer"
+                },
+                "pos_comfortable": {
+                    "type": "integer"
+                },
+                "neg_friendly": {
+                    "type": "integer"
+                },
+                "pos_friendly": {
+                    "type": "integer"
+                },
+                "no_category": {
+                    "type": "integer"
+                },
+                "test_field": {
+                    "type": "integer"
+                },
                 'location': {
                     'type': 'geo_point'
+                },
+                'review_length': {
+                    'type': 'integer'
                 }
             }
         }
      }
 }
+
 es.indices.create(index='hotels', body=settings)
 
 
@@ -76,8 +123,11 @@ with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
     
     first = True
     for row in data:
-	    if first:
-	        first = False
-	        continue
-	    review = Review(row)
-	    es.index(index='hotels', doc_type='review', body=review.data)
+        if first:
+            first = False
+            continue
+        review = Review(row)
+        es.index(index='hotels', doc_type='review', body=review.data)
+        sleep(uniform(0,2))
+        
+print('done')
