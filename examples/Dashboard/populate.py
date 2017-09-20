@@ -68,7 +68,7 @@ settings = {
 es.indices.create(index='hotels', body=settings)
 
 
-with open('gt_amazon.csv', 'rt') as csvfile:
+with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
     data = csv.reader(csvfile, delimiter='\t')
     
     first = True
