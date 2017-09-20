@@ -11,7 +11,6 @@ class Review:
     def __init__(self, row):
         # Best random date generator ever
         fake_date = ('2017-%02d-%02dT%02d:%02d:%09.6f' % (randint(1,8), randint(1,28), randint(1,23), randint(0,59), uniform(0,59)))
-        print(fake_date)
         self.data = {
            'pos_food': row[0],
            'neg_food': row[1],
@@ -48,6 +47,17 @@ class Review:
         elif src_id == 3:
             self.data['source'] = 'Connected toaster'
 
+        self.data["positive_reasons"] = self.extract_positive_reasons(row)
+			
+    def extract_positive_reasons(self, row):
+        result = []
+        if int(row[0]) > 0: result.append("good food")
+        if int(row[2]) > 0: result.append("good location")
+        if int(row[9]) > 0: result.append("really comfortable")
+        if int(row[11]) > 0: result.append("friendly personal")
+        return result
+
+
 
 # IMPLEMENTATION
 
@@ -75,6 +85,7 @@ with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
     data = csv.reader(csvfile, delimiter='\t')
     
     first = True
+    i = 1
     for row in data:
 	    if first:
 	        first = False
