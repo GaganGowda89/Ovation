@@ -57,7 +57,7 @@ es = Elasticsearch()
 es.indices.delete(index='hotels', ignore=[400,404])
 settings = {
     "mappings": {
-        "hotels": {
+        "review": {
             "properties": {
                 "date": {
                     "type": "date"
@@ -69,8 +69,41 @@ settings = {
         }
      }
 }
-
 es.indices.create(index='hotels', body=settings)
+
+
+# Types:
+#  - reason
+#  - positive/negative
+#  - demography [for filters?]
+#  - geography [single value per review]
+#  - timeline [single value per review]
+#  - number/text
+types = {
+    'pos_food' : ['positive', 'reason', 'number'],
+    'neg_food' : ['negative', 'reason', 'number'],
+    'pos_location' : ['positive', 'reason', 'number'],
+    'bad_location' : ['negative', 'reason', 'number'],
+    'bad_hygiene' : ['negative', 'reason', 'number'],
+    'renovation_needed' : ['negative', 'reason', 'number'],
+    'payment_problems' : ['negative', 'reason', 'number'],
+    'technical_problems' : ['negative', 'reason', 'number'],
+    'neg_comfortable' : ['negative', 'reason', 'number'],
+    'pos_comfortable' : ['positive', 'reason', 'number'],
+    'neg_friendly' : ['negative', 'reason', 'number'],
+    'pos_friendly' : ['positive', 'reason', 'number'],
+    'date' : ['timeline'],
+    'age' : ['demography', 'number'],
+    'sentiment' : ['summary', 'number'],
+    'location' : ['geography'],
+    'gender' : ['demography', 'text'],
+    'source' : ['source', 'text']
+}
+for key in types.keys():
+    row = types[key]
+    for value in row:
+        print(value+' -> '+key)
+        es.index(index='hotels', doc_type='meta', body={value : key})
 
 
 with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
