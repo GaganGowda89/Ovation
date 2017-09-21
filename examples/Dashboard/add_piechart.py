@@ -101,19 +101,19 @@ for ft in field_type:
         field_map[ft].append(element['_source'][ft])
     
 # Display the information which was extracted
-# print('Field types:')
-# for ft in field_type:
-    # print('    '+ft)
+print('Field types:')
+for ft in field_type:
+    print('    '+ft)
 
-# print('Field map:')
-# for ft in field_map.keys():
-    # print('    '+ft+' has fields:')
-    # for fn in field_map[ft]:
-        # print('        '+str(fn))
+print('Field map:')
+for ft in field_map.keys():
+    print('    '+ft+' has fields:')
+    for fn in field_map[ft]:
+        print('        '+fn)
 
-#We can first create a visualisation to. Here, I will illustrate with a
-#gauge, but we'll have to adapt it to our own
-#stuff
+# We can first create a visualisation to. Here, I will illustrate with a
+# gauge, but we'll have to adapt it to our own
+# stuff
 vis_id = 'sentimentgauge'
 vis_title = 'My gauge'
 vis_source_field = field_map['summary'][0] # there is only one
@@ -132,42 +132,20 @@ vis = {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=vis_id)
 
 
-# generate the time lion json object for the visualisation
-def generateTimeLionQuerys():
-    result=""
-    for negative_field in field_map['negative']:
-        result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+" cumulated').cusum(), "
-        result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+"').bars(), "
-    for positive_field in field_map['positive']:
-        result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+" cumulated').cusum(), "
-        result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+"').bars(), "
-    return result[:-2]
-
-def generateTimelionJSONObject():
-    jsonObject = {
-        "title": "Reasons over time",
-        "visState": "{\"type\": \"timelion\", \"title\": \"Reasons over time\", \"params\":{\"expression\":\""+generateTimeLionQuerys()+"\", \"interval\": \"1d\"}}"
-    }
-    return jsonObject
-
-es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObject(), id="timelionID")
-
 # The next step is to create a dashboard with the gauge.
 dashboard_id = 'dashythedashboard'
 dashboard_json = {
     "title" : "Automatically generated dashboard",
     "hits" : 0,
     "description" : "This dashboard has been code-generated",
-    "panelsJSON" : "[{\"size_x\":6,\"size_y\":6,\"panelIndex\":1,\"type\":\"visualization\",\"id\":\"timelionID\",\"col\":3,\"row\":1}]",
+    "panelsJSON" : "[{\"size_x\":6,\"size_y\":6,\"panelIndex\":1,\"type\":\"visualization\",\"id\":\""+vis_id+"\",\"col\":3,\"row\":1}]",
     "optionsJSON" : "{\"darkTheme\":false}",
     "uiStateJSON" : "{\"P-1\":{\"vis\":{\"defaultColors\":{\"0 - 1\":\"rgb(0,104,55)\",\"1 - 3\":\"rgb(255,255,190)\",\"3 - 5\":\"rgb(165,0,38)\"}}}}",
     "version" : 1,
     "timeRestore" : False,
     "kibanaSavedObjectMeta" : {
-        "searchSourceJSON" : "{}"
+        "searchSourceJSON" : "{\"filter\":[{\"query\":{\"match_all\":{}}}],\"highlightAll\":true,\"version\":true}"
     }
 }
 es.index(index='.kibana', doc_type='dashboard', body=dashboard_json, id=dashboard_id)
-
-
 
