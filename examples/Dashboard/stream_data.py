@@ -1,5 +1,6 @@
 from elasticsearch import Elasticsearch
 from datetime import datetime
+from datetime import timedelta
 from random import randint
 from random import uniform
 from time import sleep
@@ -24,15 +25,12 @@ def score(a, b):
 
 
 class Review:
-    def __init__(self, row):
-        # Best random date generator ever
-        fake_date = ('2017-%02d-%02dT%02d:%02d:%09.6f' % (randint(1,8), randint(1,28), randint(1,23), randint(0,59), uniform(0,59)))
-        print(fake_date)
+    def __init__(self, row, fake_date):
+        delta = timedelta(minutes=5)
         sentiment = (score(row[0], row[1]) + score(row[2], row[3]) - int(row[4]) - int(row[5]) - int(row[6]) - int(row[7]) + score(row[9], row[8]) + score(row[11], row[10])) / 4
         sentiment = int(sentiment)
         sentiment = min(1, sentiment)
         sentiment = max(sentiment, 5)
-        print('    '+str(sentiment))
         self.data = {
            'pos_food': int(row[0]),
            'neg_food': int(row[1]),
@@ -130,70 +128,19 @@ class Review:
 
 
 es = Elasticsearch([host])
-es.indices.delete(index='hotels', ignore=[400,404])
-settings = {
-    "mappings": {
-        "review": {
-            "properties": {
-                "date": {
-                    "type": "date"
-                },
-                'location': {
-                    'type': 'geo_point'
-                }
-            }
-        }
-     }
-}
-es.indices.create(index='hotels', body=settings)
-
-
-# Types:
-#  - reason
-#  - positive/negative
-#  - demography [for filters?]
-#  - geography [single value per review]
-#  - timeline [single value per review]
-#  - number/text
-types = {
-    'pos_food' : ['positive', 'reason', 'number'],
-    'neg_food' : ['negative', 'reason', 'number'],
-    'pos_location' : ['positive', 'reason', 'number'],
-    'bad_location' : ['negative', 'reason', 'number'],
-    'bad_hygiene' : ['negative', 'reason', 'number'],
-    'renovation_needed' : ['negative', 'reason', 'number'],
-    'payment_problems' : ['negative', 'reason', 'number'],
-    'technical_problems' : ['negative', 'reason', 'number'],
-    'neg_comfortable' : ['negative', 'reason', 'number'],
-    'pos_comfortable' : ['positive', 'reason', 'number'],
-    'neg_friendly' : ['negative', 'reason', 'number'],
-    'pos_friendly' : ['positive', 'reason', 'number'],
-    'date' : ['timeline'],
-    'age' : ['demography', 'reviewer_age', 'number'],
-    'sentiment' : ['summary', 'number'],
-    'location' : ['geography'],
-    'gender' : ['demography', 'reviewer_gender', 'text'],
-    'source' : ['source', 'text']
-}
-
-count=0
-for key in types.keys():
-    row = types[key]
-    for value in row:
-        print('        "'+value+'" : "'+key+'"')
-        es.index(index='hotels', doc_type='meta', body={value : key})
-
 
 with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
     data = csv.reader(csvfile, delimiter='\t')
+    
+    starting_date = datetime(year=2017, month=9, day=1)
     
     first = True
     for row in data:
         if first:
             first = False
             continue
-        review = Review(row)
+        review = Review(row, starting_date)
+        starting_date = starting_date + timedelta(minutes=5)
         es.index(index='hotels', doc_type='review', body=review.data)
-        #sleep(uniform(0,2))
+        sleep(uniform(0,2))
         
-print('done')
