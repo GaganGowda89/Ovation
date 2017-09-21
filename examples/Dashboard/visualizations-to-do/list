@@ -1,0 +1,151 @@
+0 Pie chart
+AV6eP4PHj4dBKa__W60i
+{
+    "title" : "Pie Chart",
+    "visState" : "{\"title\":\"Pie Chart\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"sentiment\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+1 GeoMap
+AV6eawm3j4dBKa__W8tV
+{
+    "title" : "GeoMap_Sentiment",
+    "visState" : "{\"title\":\"GeoMap_Sentiment\",\"type\":\"tile_map\",\"params\":{\"mapType\":\"Scaled Circle Markers\",\"isDesaturated\":true,\"addTooltip\":true,\"heatMaxZoom\":0,\"heatMinOpacity\":0.1,\"heatRadius\":25,\"heatBlur\":15,\"legendPosition\":\"topright\",\"mapZoom\":2,\"mapCenter\":[0,0],\"wms\":{\"enabled\":false,\"url\":\"https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer\",\"options\":{\"version\":\"1.3.0\",\"layers\":\"0\",\"format\":\"image/png\",\"transparent\":true,\"attribution\":\"Maps provided by USGS\",\"styles\":\"\"}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"top_hits\",\"schema\":\"metric\",\"params\":{\"field\":\"sentiment\",\"aggregate\":\"average\",\"size\":1,\"sortField\":\"sentiment\",\"sortOrder\":\"desc\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"geohash_grid\",\"schema\":\"segment\",\"params\":{\"field\":\"location\",\"autoPrecision\":true,\"useGeocentroid\":true,\"precision\":2}}],\"listeners\":{}}",
+    "uiStateJSON" : "{\"mapZoom\":4,\"mapCenter\":[22.06527806776582,42.1875]}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+2 Sentiment score
+AV6jk93Pi8xgdsAiKVg9
+{
+    "title" : "Sentiment_Score",
+    "visState" : "{\"title\":\"Sentiment_Score\",\"type\":\"tagcloud\",\"params\":{\"scale\":\"linear\",\"orientation\":\"single\",\"minFontSize\":18,\"maxFontSize\":72},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"sentiment\",\"size\":10,\"order\":\"desc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+3 Age pie
+AV6jnFoei8xgdsAiKVg_
+{
+    "title" : "Age",
+    "visState" : "{\"title\":\"Age\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"age\",\"interval\":20,\"extended_bounds\":{},\"customLabel\":\"Age\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+Gender pie
+AV6jn1t-i8xgdsAiKVhA
+{
+    "title" : "Gender",
+    "visState" : "{\"title\":\"Gender\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"split\",\"params\":{\"field\":\"gender.keyword\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"row\":true}}],\"listeners\":{}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+Overall line
+AV6jh3W3i8xgdsAiKVg6
+{
+    "title" : "Overall_2",
+    "visState" : "{\"title\":\"Overall_2\",\"type\":\"line\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"truncate\":100},\"title\":{\"text\":\"sentiment\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":\"true\",\"type\":\"line\",\"mode\":\"normal\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true,\"lineWidth\":5}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false,\"orderBucketsBySum\":true},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"sentiment\",\"interval\":1,\"extended_bounds\":{}}}],\"listeners\":{}}",
+    "uiStateJSON" : "{\"vis\":{\"colors\":{\"Count\":\"#BA43A9\"}}}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+        
+
+Age histogram
+AV6jpI_ui8xgdsAiKVhB
+{
+    "title" : "Age Chart",
+    "visState" : "{\"title\":\"Age Chart\",\"type\":\"histogram\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"truncate\":100},\"title\":{\"text\":\"age\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":\"true\",\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"age\",\"interval\":20,\"extended_bounds\":{}}}],\"listeners\":{}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+Negative reasons
+AV6jsik3i8xgdsAiKVhD
+{
+    "title" : "All_negative_reasons",
+    "visState" : "{\"type\":\"timelion\",\"title\":\"All_negative_reasons\",\"params\":{\"expression\":\".es(q='bad_hygiene:4').color('red').cusum().label('Bad Hygiene cumulated'),  .es(q='bad_hygiene:4').color('red').bars().label('Bad Hygiene'), .es(q='bad_location:4').color('red').cusum().label('Bad Location Cumulated'),  .es(q='bad_location:4').color('red').bars().label('Bad Location'), .es(q='neg_comfortable:4').color('red').cusum().label('Uncomfortable Cumulated'),  .es(q='neg_comfortable:4').color('red').bars().label('Uncomfortable'), .es(q='neg_food:4').color('red').cusum().label('Bad food cumulated'),  .es(q='neg_food:4').color('red').bars().label('Bad food'), .es(q='neg_friendly:4').color('red').cusum().label('Unfriendly staff cumulated'),  .es(q='neg_friendly:4').color('red').bars().label('Unfriendly staff'), .es(q='payment_problems:4').color('red').cusum().label('Payment problem cumulated'),  .es(q='payment_problems:4').color('red').bars().label('Payment problems'), .es(q='renovation_needed:4').color('red').cusum().label('renovation needed cumulated'),  .es(q='renovation_needed:4').color('red').bars().label('renovation needed'), .es(q='technical_problems:4').color('red').cusum().label('technical problems cumulated'),  .es(q='technical_problems:4').color('red').bars().label('technical problems')\",\"interval\":\"1d\"}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{}"
+    }
+}
+
+
+Gender histogram
+AV6jtTmqi8xgdsAiKVhE
+{
+    "title" : "Gender Chart",
+    "visState" : "{\"title\":\"Gender Chart\",\"type\":\"histogram\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"truncate\":100},\"title\":{\"text\":\"Gender\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":\"true\",\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"gender.keyword\",\"size\":5,\"orderAgg\":{\"id\":\"2-orderAgg\",\"enabled\":true,\"type\":\"count\",\"schema\":\"orderAgg\",\"params\":{}},\"order\":\"desc\",\"orderBy\":\"custom\",\"customLabel\":\"Gender\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+Source histogram
+AV6jyG3Ei8xgdsAiKVhK
+{
+    "title" : "Source_Graph",
+    "visState" : "{\"title\":\"Source_Graph\",\"type\":\"histogram\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":200},\"title\":{\"text\":\"Source\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":75,\"filter\":true,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"normal\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"source.keyword\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Source\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{\"vis\":{\"colors\":{\"Count\":\"#BA43A9\"}}}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
+
+
+Source count
+AV6kNPrWi8xgdsAiKVhU
+{
+    "title" : "Source_Count_",
+    "visState" : "{\"title\":\"Source_Count_\",\"type\":\"metric\",\"params\":{\"addTooltip\":true,\"addLegend\":false,\"type\":\"gauge\",\"gauge\":{\"verticalSplit\":false,\"autoExtend\":false,\"percentageMode\":false,\"gaugeType\":\"Circle\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"None\",\"useRange\":false,\"colorsRange\":[{\"from\":0,\"to\":100}],\"invertColors\":false,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":false,\"labels\":false,\"color\":\"#333\",\"width\":2},\"type\":\"meter\",\"style\":{\"fontSize\":60,\"bgColor\":false,\"labelColor\":false,\"subText\":\"\"},\"minAngle\":0,\"maxAngle\":6.283185307179586}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"source.keyword\",\"size\":2,\"order\":\"desc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{\"vis\":{\"defaultColors\":{\"0 - 100\":\"rgb(0,104,55)\"},\"legendOpen\":true,\"colors\":{\"0 - 100\":\"#962D82\"}}}",
+    "description" : "",
+    "version" : 1,
+    "kibanaSavedObjectMeta" : {
+        "searchSourceJSON" : "{\"index\":\"AV6eJZvDj4dBKa__W5uV\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+    }
+}
