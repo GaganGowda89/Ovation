@@ -148,3 +148,4 @@ dashboard_json = {
     }
 }
 es.index(index='.kibana', doc_type='dashboard', body=dashboard_json, id=dashboard_id)
+
