@@ -6,13 +6,15 @@ from time import sleep
 import requests
 import json
 import csv
+import re
 
 #TODO : select correct values
 host = 'http://192.168.54.25:9200'
-interactive = False
+interactive = True
 bignumber = 10000 # because we can't get 'all' results :-(
+false = False # this makes sense when using JSON data
 
-es = Elasticsearch()
+es = Elasticsearch([host])
 
 
 r = requests.get(host+'/.kibana/_search?q=*&size='+str(bignumber))
@@ -40,6 +42,9 @@ else:
 
 # Index title
 tit = index_titles[selected]
+#tit = tit.sub('[*]', '', line)
+if tit[-1] == '*':
+    tit = tit[:-1]
 
 # Index id
 sid = index_ids[selected]
@@ -47,7 +52,7 @@ sid = index_ids[selected]
 print('Selected ID: '+index_ids[selected])
 
 
-
+print('Contacting '+host+'/'+tit)
 r = requests.get(host+'/'+tit) 
 j = r.json();
 doc_types = j[tit]['mappings'].keys()
