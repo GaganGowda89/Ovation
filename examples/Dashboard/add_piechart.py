@@ -8,7 +8,7 @@ import json
 import csv
 
 #TODO : select correct values
-host = 'http://localhost:9200'
+host = 'http://192.168.54.25:9200'
 interactive = False
 bignumber = 10000 # because we can't get 'all' results :-(
 
@@ -114,38 +114,38 @@ for ft in field_map.keys():
 # We can first create a visualisation to. Here, I will illustrate with a
 # gauge, but we'll have to adapt it to our own
 # stuff
-vis_id = 'sentimentgauge'
+vis_id = 'pieoverallzee'
 vis_title = 'My gauge'
 vis_source_field = field_map['summary'][0] # there is only one
 
 print(vis_source_field)
 vis = {
-    "title" : vis_title,
-    "visState" : "{\""+vis_title+"\":\"TITLE\",\"type\":\"gauge\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"Super gauge\":{\"verticalSplit\":false,\"extendRange\":true,\"percentageMode\":false,\"gaugeType\":\"Arc\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"Labels\",\"colorsRange\":[{\"from\":0,\"to\":1},{\"from\":1,\"to\":3},{\"from\":3,\"to\":5}],\"invertColors\":false,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":true,\"labels\":false,\"color\":\"#333\"},\"type\":\"meter\",\"style\":{\"bgWidth\":0.9,\"width\":0.9,\"mask\":false,\"bgMask\":false,\"maskBars\":50,\"bgFill\":\"#eee\",\"bgColor\":false,\"subText\":\"\",\"fontSize\":60,\"labelColor\":true}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\""+vis_source_field+"\"}}],\"listeners\":{}}",
-    "uiStateJSON" : "{\"vis\":{\"defaultColors\":{\"0 - 1\":\"rgb(0,104,55)\",\"1 - 3\":\"rgb(255,255,190)\",\"3 - 5\":\"rgb(165,0,38)\"}}}",
-    "description" : "",
-    "version" : 1,
-    "kibanaSavedObjectMeta" : {
-        "searchSourceJSON" : "{\"index\":\""+sid+"\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+      "title": "Pie Chart",
+      "visState": "{\"title\":\"Pie Chart\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\""+vis_source_field+"\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\""+sid+"\",\"query\":{\"match_all\":{}},\"filter\":[]}"
+      }
     }
-}
 es.index(index='.kibana', doc_type='visualization', body=vis, id=vis_id)
 
 
 # The next step is to create a dashboard with the gauge.
-dashboard_id = 'dashythedashboard'
+dashboard_id = 'dashythedashboardzee'
 dashboard_json = {
-    "title" : "Automatically generated dashboard",
-    "hits" : 0,
-    "description" : "This dashboard has been code-generated",
-    "panelsJSON" : "[{\"size_x\":6,\"size_y\":6,\"panelIndex\":1,\"type\":\"visualization\",\"id\":\""+vis_id+"\",\"col\":3,\"row\":1}]",
-    "optionsJSON" : "{\"darkTheme\":false}",
-    "uiStateJSON" : "{\"P-1\":{\"vis\":{\"defaultColors\":{\"0 - 1\":\"rgb(0,104,55)\",\"1 - 3\":\"rgb(255,255,190)\",\"3 - 5\":\"rgb(165,0,38)\"}}}}",
-    "version" : 1,
-    "timeRestore" : False,
-    "kibanaSavedObjectMeta" : {
-        "searchSourceJSON" : "{\"filter\":[{\"query\":{\"match_all\":{}}}],\"highlightAll\":true,\"version\":true}"
+      "title": "zee",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\""+vis_id+"\",\"panelIndex\":1,\"row\":1,\"size_x\":6,\"size_y\":3,\"type\":\"visualization\"}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"match_all\":{}}}],\"highlightAll\":true,\"version\":true}"
+      }
     }
-}
 es.index(index='.kibana', doc_type='dashboard', body=dashboard_json, id=dashboard_id)
 
