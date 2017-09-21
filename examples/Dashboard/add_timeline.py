@@ -84,7 +84,7 @@ print('    Doc meta: '+doc_meta)
 print('')
 
 # Looking for all field types
-r = requests.get(host+'/hotels/'+doc_meta+'/_search?q=*&size='+str(bignumber))
+r = requests.get(host+'/'+tit+'/'+doc_meta+'/_search?q=*&size='+str(bignumber))
 tags = r.json()['hits']['hits']
 field_type = set()
 for element in tags:
@@ -94,7 +94,7 @@ for element in tags:
 # Creating a map [field type] -> [set(field_names)]
 field_map = {}
 for ft in field_type:
-    r = requests.get(host+'/hotels/'+doc_meta+'/_search?q='+ft+':*&size='+str(bignumber))
+    r = requests.get(host+'/'+tit+'/'+doc_meta+'/_search?q='+ft+':*&size='+str(bignumber))
     tags = r.json()['hits']['hits']
     field_map[ft] = []
     for element in tags:
