@@ -52,10 +52,12 @@ class Review:
            'location': str(uniform(-90, 90))+','+str(uniform(-180, 180))
         }
         
+        age = 20
         if randint(0,1) == 0:
-            age = 30 - uniform(0, 12**0.5)**2
+            age = int(30 - uniform(0, 12**0.5)**2)
         else:
-            age = 30 + uniform(0, 51**0.5)**2
+            age = int(30 + uniform(0, 51**0.5)**2)
+        print(age)
         self.data['age'] = age
 
 
@@ -164,10 +166,10 @@ types = {
     'neg_friendly' : ['negative', 'reason', 'number'],
     'pos_friendly' : ['positive', 'reason', 'number'],
     'date' : ['timeline'],
-    'age' : ['demography', 'number'],
+    'age' : ['demography', 'reviewer_age', 'number'],
     'sentiment' : ['summary', 'number'],
     'location' : ['geography'],
-    'gender' : ['demography', 'text'],
+    'gender' : ['demography', 'reviewer_gender', 'text'],
     'source' : ['source', 'text']
 }
 
