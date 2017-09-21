@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>jQuery • highlightTextarea</title>
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<!--
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+  <script src="../jquery.highlighttextarea.js"></script>
+-->
+  <link href="../jquery.highlighttextarea.css" rel="stylesheet">
+  
+  <script>
+    function appendScript(src, callback) {
+      var head = document.getElementsByTagName('head')[0];
+    
+      if (src.endsWith(".js")) {
+        var elt = document.createElement("script");
+        elt.type = "text/javascript";
+        elt.src = src;
+      } else {
+        var elt = document.createElement("link");
+        elt.rel = "stylesheet";
+        elt.link = src;
+      }
+
+      elt.onload = function() {
+        callback();
+      }
+
+      head.appendChild(elt);
+    }
+ 
+    function runTest() {
+      $('#demo9').highlightTextarea({
+          ranges: [{
+              class: 'blue',
+              start: 0,
+              length: 5
+          }, {
+              color: '#FFFF00',
+              ranges: [[6, 11], [40, 55],[66,69]]
+          }],
+          id: 'demo9-wrap',
+          debug: true
+      });
+
+    }
+
+    function addDemo7Events() {
+        $('#demo7-textarea mark')
+            .on('mouseover', function (e) {
+                $('#demo7-last-event').html('Mouseover');
+            })
+            .on('mouseout', function (e) {
+                $('#demo7-last-event').html('Mouseout');
+            });
+    }
+    
+    function test() {
+      var jqv = "jquery-1.11.1.min.js";
+
+      try {
+        jqv = window.location.search.split('?')[1].split('=')[1];
+      } catch (e) {}
+
+      appendScript("http://code.jquery.com/" + jqv,
+        function() {
+          $('#jqv').val(jqv);
+
+          appendScript("http://code.jquery.com/ui/1.10.4/jquery-ui.min.js",
+          function() {
+            appendScript("../jquery.highlighttextarea.js",
+            runTest
+          )})});
+    }
+
+  function setJQuery(newVersion) {
+    var jqv = $('#jqv').val();
+
+    window.location = 'index.html?jqv=' + jqv;
+  }
+ 
+  window.onload = test;
+  </script>
+
+  <style>
+  #demo5-wrap mark {
+      padding:0 3px;
+      margin:0 -3px;
+      border-radius:0.5em;
+      background-color:#9999FF !important;
+  }
+
+  #demo9-wrap mark.blue, #demo10-wrap mark.blue, #demo11-wrap mark.blue {
+      background-color: #ADF0FF;
+  }
+  </style>
+</head>
+
+<body>
+
+
+
+
+  <article>
+    <h3>Ranges</h3>
+
+    <textarea id="demo9" cols="50" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at massa non erat convallis vulputate molestie nec dui. Donec auctor blandit nibh quis luctus. Donec tincidunt auctor consequat.</textarea>
+  </article>
+
+
+
+</body>
+</html>
