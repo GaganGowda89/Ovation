@@ -139,7 +139,8 @@ def generateTimeLionQuerysCumulative():
         result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+" cumulated').cusum(), "
     for positive_field in field_map['positive']:
         result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+" cumulated').cusum(), "
-    return result[:-2]
+    result = result[:-2] + ".legend(false)
+    return result
 
 def generateTimelionJSONObjectCumulative():
     jsonObject = {
@@ -154,7 +155,8 @@ def generateTimeLionQueryBars():
         result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+"').bars(), "
     for positive_field in field_map['positive']:
         result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+"').bars(), "
-    return result[:-2]
+    result = result[:-2] + ".legend(ne, 3)"
+    return result
 
 def generateTimelionJSONObjectBars():
     jsonObject = {
