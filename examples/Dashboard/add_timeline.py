@@ -132,38 +132,50 @@ vis = {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=vis_id)
 
 
+colors = ['red', 'green', 'rebeccapurple', 'darkmagenta', 'yellow', 'blue', 'deeppink', 'darkgreen', 'orange', 'darkgoldenrod', 'fuchsia', 'chocolate', 'coral', 'darkorchid', 'gold', 'MediumAquaMarin', 'Teal']
+
 # generate the time lion json object for the visualisation
 def generateTimeLionQuerysCumulative():
     result=""
+    counter = 0
     for negative_field in field_map['negative']:
-        result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+" cumulated').cusum(), "
+        result = result + ".es(q='"+negative_field+":4').color('"+colors[counter]+"').label('"+negative_field+" cumulated').cusum(), "
+        counter = counter + 1
     for positive_field in field_map['positive']:
-        result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+" cumulated').cusum(), "
-    return result[:-2]
+        result = result + ".es(q='"+positive_field+":4').color('"+colors[counter]+"').label('"+positive_field+" cumulated').cusum(), "
+        counter = counter + 1
+    result = result[:-2] + ".legend(false)"
+    return result
 
 def generateTimelionJSONObjectCumulative():
     jsonObject = {
-        "title": "Reasons over time",
-        "visState": "{\"type\": \"timelionCumulative\", \"title\": \"Reasons over time\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
+        "title": "Cumulated reasons",
+        "visState": "{\"type\": \"timelion\", \"title\": \"Cumulated reasons\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
+
+es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObjectCumulative(), id="CumulatedReasons")
 
 def generateTimeLionQueryBars():
     result=""
+    counter = 1
     for negative_field in field_map['negative']:
-        result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+"').bars(), "
+        result = result + ".es(q='"+negative_field+":4').color('"+colors[counter]+"').label('"+negative_field+"').bars(), "
+        counter = counter + 1
     for positive_field in field_map['positive']:
-        result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+"').bars(), "
-    return result[:-2]
+        result = result + ".es(q='"+positive_field+":4').color('"+colors[counter]+"').label('"+positive_field+"').bars(), "
+        counter = counter + 1
+    result = result[:-2] + ".legend(ne, 3)"
+    return result
 
 def generateTimelionJSONObjectBars():
     jsonObject = {
-        "title": "Reasons over time",
-        "visState": "{\"type\": \"timelionBars\", \"title\": \"Reasons over time\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
+        "title": "Barred reasons",
+        "visState": "{\"type\": \"timelion\", \"title\": \"Barred reasons\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
 
-es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObject(), id="timelionID")
+es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObjectBars(), id="timelionID")
 
 # The next step is to create a dashboard with the gauge.
 dashboard_id = 'dashythedashboard'
