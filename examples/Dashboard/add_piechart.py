@@ -9,7 +9,8 @@ import csv
 import re
 
 #TODO : select correct values
-host = 'http://192.168.54.25:9200'
+#host = 'http://192.168.54.25:9200'
+host = 'http://localhost:9200'
 interactive = True
 bignumber = 10000 # because we can't get 'all' results :-(
 false = False # this makes sense when using JSON data
