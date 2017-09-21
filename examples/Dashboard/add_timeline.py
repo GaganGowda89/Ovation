@@ -133,20 +133,33 @@ es.index(index='.kibana', doc_type='visualization', body=vis, id=vis_id)
 
 
 # generate the time lion json object for the visualisation
-def generateTimeLionQuerys():
+def generateTimeLionQuerysCumulative():
     result=""
     for negative_field in field_map['negative']:
         result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+" cumulated').cusum(), "
-        result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+"').bars(), "
     for positive_field in field_map['positive']:
         result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+" cumulated').cusum(), "
+    return result[:-2]
+
+def generateTimelionJSONObjectCumulative():
+    jsonObject = {
+        "title": "Reasons over time",
+        "visState": "{\"type\": \"timelionCumulative\", \"title\": \"Reasons over time\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
+    }
+    return jsonObject
+
+def generateTimeLionQueryBars():
+    result=""
+    for negative_field in field_map['negative']:
+        result = result + ".es(q='"+negative_field+":4').color('red').label('"+negative_field+"').bars(), "
+    for positive_field in field_map['positive']:
         result = result + ".es(q='"+positive_field+":4').color('blue').label('"+positive_field+"').bars(), "
     return result[:-2]
 
-def generateTimelionJSONObject():
+def generateTimelionJSONObjectBars():
     jsonObject = {
         "title": "Reasons over time",
-        "visState": "{\"type\": \"timelion\", \"title\": \"Reasons over time\", \"params\":{\"expression\":\""+generateTimeLionQuerys()+"\", \"interval\": \"1d\"}}"
+        "visState": "{\"type\": \"timelionBars\", \"title\": \"Reasons over time\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
 
