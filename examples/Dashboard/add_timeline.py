@@ -194,5 +194,17 @@ dashboard_json = {
 }
 es.index(index='.kibana', doc_type='dashboard', body=dashboard_json, id=dashboard_id)
 
+def generateGenderPieChart():
+    jsonObject = {
+        "title":"Gender",
+        "visState": "{\"title\": \"Gender\", \"type\": \"pie\", \"params\": {\"addTooltip\": true, \"addLegend\": true, \"legendPosition\": \"right\", \"isDonut\": false}, \"aggs\": [{\"id\": \"1\", \"enabled\": true, \"type\": \"count\", \"schema\": \"metric\", \"params\":{}}, {\"id\":\"2\", \"enabled\":true, \"type\":\"terms\", \"schema\":\"split\", \"params\":{\"field\":\""+field_map['reviewer_gender'][0]+".keyword\", \"size\":\"5\", \"order\":\"desc\", \"orderBy\":\"1\", \"row\":true}}], \"listeners\":{}}",
+        "uiStateJSON": "{}",
+        "description": "",
+        "version": "1",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": "{\"index\":\""+sid+"\", \"query\":{\"match_all\":{}}, \"filter\":[]}"
+        }
+    }
+    return jsonObject
 
-
+es.index(index='.kibana', doc_type='visualization', body=generateGenderPieChart(), id="genderPieChart")

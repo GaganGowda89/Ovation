@@ -74,7 +74,7 @@ class Review:
         elif src_id < 89:
             self.data['source'] = 'Homepage'
         elif src_id < 101:
-            self.data['source'] = 'Connected toaster'
+            self.data['source'] = 'Google+'
         
         
         # Location-based 
