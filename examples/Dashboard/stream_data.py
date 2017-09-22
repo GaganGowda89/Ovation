@@ -23,6 +23,7 @@ def score(a, b):
     return ceil(a-b+4)
 
 
+hotel_names = ['Adele', 'BJ Garden', 'Cuihu Hotel', 'Fukov Hotel']
 
 class Review:
     def __init__(self, row, fake_date):
@@ -49,7 +50,8 @@ class Review:
            'date': fake_date,
            'age': randint(18, 81),
            'sentiment': sentiment,
-           'location': str(uniform(-90, 90))+','+str(uniform(-180, 180))
+           'location': str(uniform(-90, 90))+','+str(uniform(-180, 180)),
+           'name': hotel_names[randint(0,len(hotel_names)-1)]
         }
         
         age = 20

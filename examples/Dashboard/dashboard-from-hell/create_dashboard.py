@@ -120,7 +120,7 @@ for ft in field_map.keys():
 # We can first create a visualisation to. Here, I will illustrate with a
 # gauge, but we'll have to adapt it to our own
 # stuff
-sentiment_score_id = 'sentiment_score'
+sentiment_score_id = 'sentiment_score_' + tit
 sentiment_score_title = 'Sentiment Score'
 sentiment_score_field = field_map['summary'][0] # there is only one
 
@@ -137,7 +137,7 @@ vis =  {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=sentiment_score_id)
 
 
-overall2_id = 'overall2'
+overall2_id = 'overall2_' + tit
 overall2_title = 'Overall View'
 overall2_field = field_map['summary'][0] # there is only one
 
@@ -153,7 +153,7 @@ vis = {
 }
 es.index(index='.kibana', doc_type='visualization', body=vis, id=overall2_id)
 
-sent_gauge_id = 'sentimentgauge'
+sent_gauge_id = 'sentimentgauge_' + tit
 sent_gauge_title = 'Sentiment Gauge'
 sent_gauge_field = field_map['summary'][0] # there is only one
 
@@ -178,44 +178,44 @@ def generateTimeLionQuerysCumulative():
     result=""
     counter = 0
     for negative_field in field_map['negative']:
-        result = result + ".es(q='"+negative_field+":4').color('"+colors[counter]+"').label('"+negative_field+" cumulated').cusum(), "
+        result = result + ".es(index="+tit+", q='"+negative_field+":4').color('"+colors[counter]+"').label('"+negative_field+" cumulated').cusum(), "
         counter = counter + 1
     for positive_field in field_map['positive']:
-        result = result + ".es(q='"+positive_field+":4').color('"+colors[counter]+"').label('"+positive_field+" cumulated').cusum(), "
+        result = result + ".es(index="+tit+", q='"+positive_field+":4').color('"+colors[counter]+"').label('"+positive_field+" cumulated').cusum(), "
         counter = counter + 1
     result = result[:-2] + ".legend(false)"
     return result
 
 def generateTimelionJSONObjectCumulative():
     jsonObject = {
-        "title": "Cumulated reasons",
-        "visState": "{\"type\": \"timelion\", \"title\": \"Cumulated reasons\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
+        "title": "Trends",
+        "visState": "{\"type\": \"timelion\", \"title\": \"Trends\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
 
-cumulated_id = 'All_reasons_real_good_colors_cumulated'
+cumulated_id = 'All_reasons_real_good_colors_cumulated_' + tit
 es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObjectCumulative(), id=cumulated_id)
 
 def generateTimeLionQueryBars():
     result=""
     counter = 1
     for negative_field in field_map['negative']:
-        result = result + ".es(q='"+negative_field+":4').color('"+colors[counter]+"').label('"+negative_field+"').bars(), "
+        result = result + ".es(index="+tit+", q='"+negative_field+":4').color('"+colors[counter]+"').label('"+negative_field+"').bars(), "
         counter = counter + 1
     for positive_field in field_map['positive']:
-        result = result + ".es(q='"+positive_field+":4').color('"+colors[counter]+"').label('"+positive_field+"').bars(), "
+        result = result + ".es(index="+tit+", q='"+positive_field+":4').color('"+colors[counter]+"').label('"+positive_field+"').bars(), "
         counter = counter + 1
     result = result[:-2] + ".legend(ne, 3)"
     return result
 
 def generateTimelionJSONObjectBars():
     jsonObject = {
-        "title": "Barred reasons",
-        "visState": "{\"type\": \"timelion\", \"title\": \"Barred reasons\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
+        "title": "Reasons",
+        "visState": "{\"type\": \"timelion\", \"title\": \"Reasons\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
 
-good_colors_id='good_colors_happy_colors'
+good_colors_id='good_colors_happy_colors_' + tit
 es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObjectBars(), id=good_colors_id)
 
 
@@ -228,7 +228,7 @@ es.index(index='.kibana', doc_type='visualization', body=generateTimelionJSONObj
 
 
 
-geomap_id = 'geomapfoo'
+geomap_id = 'geomapfoo_' + tit
 geomap_title = 'GeoMap Sentiment'
 geomap_src_loc = field_map['geography'][0] # there is only one
 geomap_src_sum = field_map['summary'][0] # there is only one
@@ -245,13 +245,13 @@ vis = {
 }
 es.index(index='.kibana', doc_type='visualization', body=vis, id=geomap_id)
 
-src_cnt_id = 'sourcecntfoo'
-src_cnt_title = 'Source Count'
+src_cnt_id = 'sourcecntfoo_' + tit
+src_cnt_title = 'Top two sources'
 src_cnt_src = field_map['source'][0] # there is only one
 
 vis =  {
     "title" : src_cnt_title,
-    "visState" : "{\"title\":\""+src_cnt_title+"\",\"type\":\"metric\",\"params\":{\"addTooltip\":true,\"addLegend\":false,\"type\":\"gauge\",\"gauge\":{\"verticalSplit\":true,\"autoExtend\":false,\"percentageMode\":false,\"gaugeType\":\"Circle\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"None\",\"useRange\":false,\"colorsRange\":[{\"from\":0,\"to\":100}],\"invertColors\":false,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":false,\"labels\":false,\"color\":\"#333\",\"width\":2},\"type\":\"meter\",\"style\":{\"fontSize\":60,\"bgColor\":false,\"labelColor\":false,\"subText\":\"\"},\"minAngle\":0,\"maxAngle\":6.283185307179586}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\""+src_cnt_src+".keyword\",\"size\":2,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Sources with the most feedback\"}}],\"listeners\":{}}",
+    "visState" : "{\"title\":\""+src_cnt_title+"\",\"type\":\"metric\",\"params\":{\"addTooltip\":true,\"addLegend\":false,\"type\":\"gauge\",\"gauge\":{\"verticalSplit\":true,\"autoExtend\":false,\"percentageMode\":false,\"gaugeType\":\"Circle\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"None\",\"useRange\":false,\"colorsRange\":[{\"from\":0,\"to\":5000}],\"invertColors\":false,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":false,\"labels\":false,\"color\":\"#333\",\"width\":2},\"type\":\"meter\",\"style\":{\"fontSize\":60,\"bgColor\":false,\"labelColor\":false,\"subText\":\"\"},\"minAngle\":0,\"maxAngle\":6.283185307179586}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\""+src_cnt_src+".keyword\",\"size\":2,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Sources with the most feedback\"}}],\"listeners\":{}}",
     "uiStateJSON" : "{\"vis\":{\"defaultColors\":{\"0 - 100\":\"rgb(0,104,55)\"},\"legendOpen\":true,\"colors\":{\"0 - 100\":\"#962D82\"}}}",
     "description" : "",
     "version" : 1,
@@ -261,8 +261,8 @@ vis =  {
 }
 es.index(index='.kibana', doc_type='visualization', body=vis, id=src_cnt_id)
 
-src_graph_id = 'sourcegraphfoo'
-src_graph_title = 'Source Graph'
+src_graph_id = 'sourcegraphfoo_' + tit
+src_graph_title = 'Sources'
 src_graph_src = field_map['source'][0] # there is only one
 
 vis = {
@@ -278,7 +278,7 @@ vis = {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=src_graph_id)
 
 
-age_chart_id = 'age_graph'
+age_chart_id = 'age_graph_' + tit
 age_chart_title = 'Age distribution'
 age_chart_field = field_map['reviewer_age'][0] # there is only one
 
@@ -295,7 +295,7 @@ vis = {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=age_chart_id)
 
 
-agepie_id = 'agepie'
+agepie_id = 'agepie_' + tit
 agepie_title = 'Age distribution'
 agepie_field = field_map['reviewer_age'][0] # there is only one
 
@@ -317,8 +317,8 @@ es.index(index='.kibana', doc_type='visualization', body=vis, id=agepie_id)
 
 def generateGenderPieChart():
     jsonObject = {
-        "title":"Gender",
-        "visState": "{\"title\": \"Gender\", \"type\": \"pie\", \"params\": {\"addTooltip\": true, \"addLegend\": true, \"legendPosition\": \"right\", \"isDonut\": false}, \"aggs\": [{\"id\": \"1\", \"enabled\": true, \"type\": \"count\", \"schema\": \"metric\", \"params\":{}}, {\"id\":\"2\", \"enabled\":true, \"type\":\"terms\", \"schema\":\"split\", \"params\":{\"field\":\""+field_map['reviewer_gender'][0]+".keyword\", \"size\":\"5\", \"order\":\"desc\", \"orderBy\":\"1\", \"row\":true}}], \"listeners\":{}}",
+        "title":"Gender distribution",
+        "visState": "{\"title\": \"Gender distribution\", \"type\": \"pie\", \"params\": {\"addTooltip\": true, \"addLegend\": true, \"legendPosition\": \"right\", \"isDonut\": false}, \"aggs\": [{\"id\": \"1\", \"enabled\": true, \"type\": \"count\", \"schema\": \"metric\", \"params\":{}}, {\"id\":\"2\", \"enabled\":true, \"type\":\"terms\", \"schema\":\"split\", \"params\":{\"field\":\""+field_map['reviewer_gender'][0]+".keyword\", \"size\":\"5\", \"order\":\"desc\", \"orderBy\":\"1\", \"row\":true}}], \"listeners\":{}}",
         "uiStateJSON": "{}",
         "description": "",
         "version": "1",
@@ -327,18 +327,18 @@ def generateGenderPieChart():
         }
     }
     return jsonObject
-genderpie_id='gender_pie'
+genderpie_id='gender_pie_' + tit
 es.index(index='.kibana', doc_type='visualization', body=generateGenderPieChart(), id=genderpie_id)
 
 
 
 
-vis_id = 'source_bar_graph'
+vis_id = 'source_bar_graph_' + tit
 vis_title = 'My gauge'
 vis_source_field = field_map['reviewer_gender'][0] # there is only one
 vis = {
-      "title": "Horizontal Gender Visualization",
-      "visState": "{\"title\":\"Horizontal Gender Visualization\",\"type\":\"histogram\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":200},\"title\":{\"text\":\"Gender\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":75,\"filter\":true,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"normal\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\""+vis_source_field+".keyword\",\"size\":100,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Gender\"}}],\"listeners\":{}}",
+      "title": "Gender distribution",
+      "visState": "{\"title\":\"Gender distribution\",\"type\":\"histogram\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":200},\"title\":{\"text\":\"Gender\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":75,\"filter\":true,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"normal\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\""+vis_source_field+".keyword\",\"size\":100,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Gender\"}}],\"listeners\":{}}",
       "uiStateJSON": "{}",
       "description": "",
       "version": 1,
