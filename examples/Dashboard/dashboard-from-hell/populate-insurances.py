@@ -134,7 +134,7 @@ es = Elasticsearch([host])
 es.indices.delete(index='insurance', ignore=[400,404])
 settings = {
     "mappings": {
-        "review": {
+        "opinion": {
             "properties": {
                 "date": {
                     "type": "date"
