@@ -29,8 +29,8 @@ class Review:
         delta = timedelta(minutes=5)
         sentiment = (score(row[0], row[1]) + score(row[2], row[3]) - int(row[4]) - int(row[5]) - int(row[6]) - int(row[7]) + score(row[9], row[8]) + score(row[11], row[10])) / 4
         sentiment = int(sentiment)
-        sentiment = min(1, sentiment)
-        sentiment = max(sentiment, 5)
+        sentiment = max(1, sentiment)
+        sentiment = min(sentiment, 5)
         self.data = {
            'pos_food': int(row[0]),
            'neg_food': int(row[1]),
@@ -142,5 +142,6 @@ with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
         review = Review(row, starting_date)
         starting_date = starting_date + timedelta(minutes=5)
         es.index(index='hotels', doc_type='review', body=review.data)
+        print('Added row')
         sleep(uniform(0,2))
         

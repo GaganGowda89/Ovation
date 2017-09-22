@@ -30,8 +30,8 @@ class Review:
         print(fake_date)
         sentiment = (score(row[0], row[1]) + score(row[2], row[3]) - int(row[4]) - int(row[5]) - int(row[6]) - int(row[7]) + score(row[9], row[8]) + score(row[11], row[10])) / 4
         sentiment = int(sentiment)
-        sentiment = min(1, sentiment)
-        sentiment = max(sentiment, 5)
+        sentiment = max(1, sentiment)
+        sentiment = min(sentiment, 5)
         print('    '+str(sentiment))
         self.data = {
            'pos_food': int(row[0]),

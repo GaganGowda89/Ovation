@@ -7,10 +7,11 @@ To have a constant update of the visualizations:
     1) Management
     2) Advanced settings
     3) timepicker:refreshIntervalDefaults
-    4) { "display": "Off", "pause": true, "value": 1000 }
+    4) { "display": "On", "pause": true, "value": 1000 }
 You might nead to restart Kibana afterwards. In Archlinux, run as
 root
     systemctl restart kibana
+After that, you can start the automatic updates by clicking on the little arrow in the top left of the screen
 
 To have correct data types:
     1) In case of numbers, cast correctly row[] in the python script
