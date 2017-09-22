@@ -349,22 +349,41 @@ vis = {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=vis_id)
 
 
+# Creating the filters
+filters = "{\"filter\":[{\"query\":{\"match_all\":{}}}],\"highlightAll\":true,\"version\":true}"
+if len(field_map['filter'])>0:
+    filters = "{\"filter\":["
+    first = True
+    for fn in field_map['filter']:
+        r = requests.get(host+'/'+tit+'/_search?q='+fn+':*&size=100')
+        j = r.json();
+        values = set()
+        for record in j['hits']['hits']:
+            values.add(record['_source'][fn])
+        print(values)
+        for name in values:
+            if first == False:
+                filters = filters + ','
+            filters = filters + "{\"meta\":{\"index\":\""+sid+"\",\"negate\":false,\"disabled\":true,\"alias\":null,\"type\":\"phrase\",\"key\":\""+fn+"\",\"value\":\""+name+"\"},\"query\":{\"match\":{\""+fn+"\":{\"query\":\""+name+"\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}"
+            first = False
+    filters = filters + "],\"highlightAll\":true,\"version\":true}"
 
 # The next step is to create a dashboard with the gauge.
 dashboard_id = 'dashythedashboard_'+tit
 dashboard_json = {
-      "title": "zee",
-      "hits": 0,
-      "description": "Dashboard for "+tit,
-      "panelsJSON": "[{\"col\":1,\"id\":\""+sentiment_score_id+"\",\"panelIndex\":2,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":5,\"id\":\""+overall2_id+"\",\"panelIndex\":11,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":9,\"id\":\""+sent_gauge_id+"\",\"panelIndex\":22,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":4,\"id\":\""+cumulated_id+"\",\"panelIndex\":19,\"row\":4,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\""+good_colors_id+"\",\"panelIndex\":20,\"row\":4,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+geomap_id+"\",\"panelIndex\":3,\"row\":4,\"size_x\":6,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\""+src_cnt_id+"\",\"panelIndex\":16,\"row\":7,\"size_x\":3,\"size_y\":4,\"type\":\"visualization\"},{\"col\":4,\"id\":\""+src_graph_id+"\",\"panelIndex\":15,\"row\":7,\"size_x\":3,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+age_chart_id+"\",\"panelIndex\":12,\"row\":9,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+agepie_id+"\",\"panelIndex\":9,\"row\":7,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\""+genderpie_id+"\",\"panelIndex\":10,\"row\":7,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\""+vis_id+"\",\"panelIndex\":23,\"row\":9,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"}]",
-      "optionsJSON": "{\"darkTheme\":false}",
-      "uiStateJSON": "{}",
-      "version": 1,
-      "timeRestore": false,
-      "kibanaSavedObjectMeta": {
-        "searchSourceJSON": "{\"filter\":[{\"query\":{\"match_all\":{}}}],\"highlightAll\":true,\"version\":true}"
-      }
+    "title": "zee",
+    "hits": 0,
+    "description": "Dashboard for "+tit,
+    "panelsJSON": "[{\"col\":1,\"id\":\""+sentiment_score_id+"\",\"panelIndex\":2,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":5,\"id\":\""+overall2_id+"\",\"panelIndex\":11,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":9,\"id\":\""+sent_gauge_id+"\",\"panelIndex\":22,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":4,\"id\":\""+cumulated_id+"\",\"panelIndex\":19,\"row\":4,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\""+good_colors_id+"\",\"panelIndex\":20,\"row\":4,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+geomap_id+"\",\"panelIndex\":3,\"row\":4,\"size_x\":6,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\""+src_cnt_id+"\",\"panelIndex\":16,\"row\":7,\"size_x\":3,\"size_y\":4,\"type\":\"visualization\"},{\"col\":4,\"id\":\""+src_graph_id+"\",\"panelIndex\":15,\"row\":7,\"size_x\":3,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+age_chart_id+"\",\"panelIndex\":12,\"row\":9,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+agepie_id+"\",\"panelIndex\":9,\"row\":7,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\""+genderpie_id+"\",\"panelIndex\":10,\"row\":7,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\""+vis_id+"\",\"panelIndex\":23,\"row\":9,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"}]",
+    "optionsJSON": "{\"darkTheme\":false}",
+    "uiStateJSON": "{}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+        #"searchSourceJSON": "{\"filter\":[{\"query\":{\"match_all\":{}}}],\"highlightAll\":true,\"version\":true}"
+        "searchSourceJSON" : filters
     }
+}
 es.index(index='.kibana', doc_type='dashboard', body=dashboard_json, id=dashboard_id)
 
 

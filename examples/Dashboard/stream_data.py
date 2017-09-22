@@ -26,7 +26,6 @@ def score(a, b):
 
 class Review:
     def __init__(self, row, fake_date):
-        delta = timedelta(minutes=5)
         sentiment = (score(row[0], row[1]) + score(row[2], row[3]) - int(row[4]) - int(row[5]) - int(row[6]) - int(row[7]) + score(row[9], row[8]) + score(row[11], row[10])) / 4
         sentiment = int(sentiment)
         sentiment = max(1, sentiment)
