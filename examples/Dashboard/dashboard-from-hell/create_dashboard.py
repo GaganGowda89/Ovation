@@ -188,8 +188,8 @@ def generateTimeLionQuerysCumulative():
 
 def generateTimelionJSONObjectCumulative():
     jsonObject = {
-        "title": "Cumulated reasons",
-        "visState": "{\"type\": \"timelion\", \"title\": \"Cumulated reasons\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
+        "title": "Trends",
+        "visState": "{\"type\": \"timelion\", \"title\": \"Trends\", \"params\":{\"expression\":\""+generateTimeLionQuerysCumulative()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
 
@@ -210,8 +210,8 @@ def generateTimeLionQueryBars():
 
 def generateTimelionJSONObjectBars():
     jsonObject = {
-        "title": "Barred reasons",
-        "visState": "{\"type\": \"timelion\", \"title\": \"Barred reasons\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
+        "title": "Reasons",
+        "visState": "{\"type\": \"timelion\", \"title\": \"Reasons\", \"params\":{\"expression\":\""+generateTimeLionQueryBars()+"\", \"interval\": \"1d\"}}"
     }
     return jsonObject
 
