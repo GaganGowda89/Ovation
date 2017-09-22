@@ -142,5 +142,6 @@ with open('gt_amazon.csv', 'rt', encoding='utf8') as csvfile:
         review = Review(row, starting_date)
         starting_date = starting_date + timedelta(minutes=5)
         es.index(index='hotels', doc_type='review', body=review.data)
+        print('Added row')
         sleep(uniform(0,2))
         
