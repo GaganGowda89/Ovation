@@ -154,13 +154,13 @@ vis = {
 es.index(index='.kibana', doc_type='visualization', body=vis, id=overall2_id)
 
 sent_gauge_id = 'sentimentgauge'
-sent_gauge_title = 'My gauge'
+sent_gauge_title = 'Sentiment Gauge'
 sent_gauge_field = field_map['summary'][0] # there is only one
 
 vis = {
-    "title" : sent_gauge_title,
-    "visState" : "{\"title\":\""+sent_gauge_title+"\",\"type\":\"gauge\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"Super gauge\":{\"verticalSplit\":false,\"extendRange\":true,\"percentageMode\":false,\"gaugeType\":\"Arc\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"Labels\",\"colorsRange\":[{\"from\":0,\"to\":1},{\"from\":1,\"to\":3},{\"from\":3,\"to\":5}],\"invertColors\":false,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":true,\"labels\":false,\"color\":\"#333\"},\"type\":\"meter\",\"style\":{\"bgWidth\":0.9,\"width\":0.9,\"mask\":false,\"bgMask\":false,\"maskBars\":50,\"bgFill\":\"#eee\",\"bgColor\":false,\"subText\":\"\",\"fontSize\":60,\"labelColor\":true}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\""+sent_gauge_field+"\"}}],\"listeners\":{}}",
-    "uiStateJSON" : "{\"vis\":{\"defaultColors\":{\"0 - 1\":\"rgb(0,104,55)\",\"1 - 3\":\"rgb(255,255,190)\",\"3 - 5\":\"rgb(165,0,38)\"}}}",
+    "title" : "Sentiment Gauge",
+    "visState" : "{\"title\":\"Sentiment Gauge\",\"type\":\"gauge\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"gauge\":{\"verticalSplit\":false,\"extendRange\":true,\"percentageMode\":false,\"gaugeType\":\"Arc\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"Labels\",\"colorsRange\":[{\"from\":0,\"to\":2},{\"from\":2,\"to\":3},{\"from\":3,\"to\":5}],\"invertColors\":true,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":true,\"labels\":false,\"color\":\"#333\"},\"type\":\"meter\",\"style\":{\"bgWidth\":0.9,\"width\":0.9,\"mask\":false,\"bgMask\":false,\"maskBars\":50,\"bgFill\":\"#eee\",\"bgColor\":false,\"subText\":\"\",\"fontSize\":60,\"labelColor\":true}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\""+sent_gauge_field+"\",\"customLabel\":\"Avg\"}}],\"listeners\":{}}",
+    "uiStateJSON" : "{\"vis\":{\"colors\":{\"2 - 3\":\"#F9BA8F\"},\"defaultColors\":{\"0 - 2\":\"rgb(165,0,38)\",\"2 - 3\":\"rgb(255,255,190)\",\"3 - 5\":\"rgb(0,104,55)\"}}}",
     "description" : "",
     "version" : 1,
     "kibanaSavedObjectMeta" : {
@@ -243,7 +243,7 @@ vis = {
         "searchSourceJSON" : "{\"index\":\""+sid+"\",\"query\":{\"match_all\":{}},\"filter\":[]}"
     }
 }
-
+es.index(index='.kibana', doc_type='visualization', body=vis, id=geomap_id)
 
 src_cnt_id = 'sourcecntfoo'
 src_cnt_title = 'Source Count'
@@ -346,16 +346,16 @@ vis = {
         "searchSourceJSON": "{\"index\":\""+sid+"\",\"query\":{\"match_all\":{}},\"filter\":[]}"
       }
     }
-
+es.index(index='.kibana', doc_type='visualization', body=vis, id=vis_id)
 
 
 
 # The next step is to create a dashboard with the gauge.
-dashboard_id = 'dashythedashboard'
+dashboard_id = 'dashythedashboard_'+tit
 dashboard_json = {
       "title": "zee",
       "hits": 0,
-      "description": "The final dashboard",
+      "description": "Dashboard for "+tit,
       "panelsJSON": "[{\"col\":1,\"id\":\""+sentiment_score_id+"\",\"panelIndex\":2,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":5,\"id\":\""+overall2_id+"\",\"panelIndex\":11,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":9,\"id\":\""+sent_gauge_id+"\",\"panelIndex\":22,\"row\":1,\"size_x\":4,\"size_y\":3,\"type\":\"visualization\"},{\"col\":4,\"id\":\""+cumulated_id+"\",\"panelIndex\":19,\"row\":4,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\""+good_colors_id+"\",\"panelIndex\":20,\"row\":4,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+geomap_id+"\",\"panelIndex\":3,\"row\":4,\"size_x\":6,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\""+src_cnt_id+"\",\"panelIndex\":16,\"row\":7,\"size_x\":3,\"size_y\":4,\"type\":\"visualization\"},{\"col\":4,\"id\":\""+src_graph_id+"\",\"panelIndex\":15,\"row\":7,\"size_x\":3,\"size_y\":4,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+age_chart_id+"\",\"panelIndex\":12,\"row\":9,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\""+agepie_id+"\",\"panelIndex\":9,\"row\":7,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\""+genderpie_id+"\",\"panelIndex\":10,\"row\":7,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\""+vis_id+"\",\"panelIndex\":23,\"row\":9,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"}]",
       "optionsJSON": "{\"darkTheme\":false}",
       "uiStateJSON": "{}",

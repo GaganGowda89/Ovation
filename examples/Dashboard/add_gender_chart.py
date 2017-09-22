@@ -9,7 +9,8 @@ import csv
 import re
 
 #TODO : select correct values
-host = 'http://192.168.54.25:9200'
+#host = 'http://192.168.54.25:9200'
+host = 'http://localhost:9200'
 interactive = True
 bignumber = 10000 # because we can't get 'all' results :-(
 false = False # this makes sense when using JSON data
@@ -138,7 +139,27 @@ vis = {
     }
 
 '''
-vis = {
+vis = {    demography    demography
+    geography
+    reason
+    text
+    positive
+    negative
+    number
+    timeline
+    source
+    summary
+
+    geography
+    reason
+    text
+    positive
+    negative
+    number
+    timeline
+    source
+    summary
+
     "title" : "Source_Graph",
     "visState" : "{\"title\":\"Sources\",\"type\":\"histogram\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":200},\"title\":{\"text\":\"Source\"}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":75,\"filter\":true,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":true,\"type\":\"histogram\",\"mode\":\"normal\",\"data\":{\"label\":\"Count\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\""+vis_source_field+".keyword\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Source\"}}],\"listeners\":{}}",
     "uiStateJSON" : "{\"vis\":{\"colors\":{\"Count\":\"#BA43A9\"}}}",

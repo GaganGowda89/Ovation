@@ -9,10 +9,10 @@ import csv
 
 #TODO : select correct values
 host = 'http://localhost:9200'
-interactive = False
+interactive = True
 bignumber = 10000 # because we can't get 'all' results :-(
 
-es = Elasticsearch()
+es = Elasticsearch([host])
 
 
 r = requests.get(host+'/.kibana/_search?q=*&size='+str(bignumber))
