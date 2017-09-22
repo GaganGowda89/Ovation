@@ -1,3 +1,11 @@
+This example uses elasticsearch as its database, and kibana for the visualisation.
+Make sure this are installed and running. We developed it with version 5.6 of elastic and kibana.
+
+After you started elasticsearch, you can just start populate.py. 
+It will create an index pattern and fills it with some data from the amazon_gt file.
+After that, you can run create_dashboard. Just follow the instructions on it and it will create the dashboard automatically.
+Then you can open kibana and look for the dashboard 'zee'.
+
 
 Python requires the elasticsearch library. With Archlinux, the package
 is called
@@ -25,7 +33,7 @@ data.
 
 To work with requests in python, python-requests is needed.
 
-       
+ 
       
   # How to load the Elastic Search Instance to other client using Kibana
   
